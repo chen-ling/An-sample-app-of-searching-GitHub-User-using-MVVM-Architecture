@@ -4,23 +4,26 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ccl.exercise.githubsearch.extension.afterTextChanged
-import ccl.exercise.githubsearch.service.GithubSearchServiceImpl
 import ccl.exercise.githubsearch.ui.UserSearchAdapter
+import ccl.exercise.githubsearch.ui.UserViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 class SearchingUserActivity : AppCompatActivity() {
 
+    val viewModel: UserViewModel by viewModel()
+    val searchSubject = PublishSubject.create<String>()
     private lateinit var userSearchAdapter: UserSearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupView()
-        callApi()
+        registerSearchSubject()
     }
 
     private fun setupView() {
@@ -38,20 +41,15 @@ class SearchingUserActivity : AppCompatActivity() {
         }
     }
 
-    fun callApi() {
-        //viewmodel
+    fun registerSearchSubject() {
         searchSubject
             .debounce(300, TimeUnit.MILLISECONDS)
-            .flatMap { GithubSearchServiceImpl.getSearchUserList(it).toObservable() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                userSearchAdapter.setItems(it.item)
-            })
+            .subscribe {
+                viewModel.search(it)
+            }
     }
-
-    //TODO move subject to viewmodel
-    private val searchSubject = PublishSubject.create<String>()
 
 
 }

@@ -46,6 +46,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
 
+    // Koin
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-android-ext:$koin_version"
+
     // Image
     implementation "com.github.bumptech.glide:glide:$glide_version"
 
