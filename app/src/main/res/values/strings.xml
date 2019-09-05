@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">GithubUserSearch</string>
     <string name="search_query_hint">Type something to search users</string>
-    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="something_went_wrong">There is something wrong. Please try again later.</string>
 </resources>

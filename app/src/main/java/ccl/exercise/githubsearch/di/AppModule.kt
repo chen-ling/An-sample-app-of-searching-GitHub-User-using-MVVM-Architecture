@@ -19,11 +19,11 @@ val appModule = module {
     single { Gson() }
 
     single {
-        val timeoutSeconds = 30L
+        val timeoutSeconds = 15L
 
         val okhttp =
             OkHttpClient.Builder()
-                .writeTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
                 .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
