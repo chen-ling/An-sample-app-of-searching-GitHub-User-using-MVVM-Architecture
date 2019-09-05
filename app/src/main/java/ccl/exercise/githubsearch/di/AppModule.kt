@@ -45,7 +45,7 @@ val appModule = module {
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(GithubSearchServiceImpl.API_ENDPOINT)
+            .baseUrl(GithubSearchApi.API_ENDPOINT)
             .build()
     }
 

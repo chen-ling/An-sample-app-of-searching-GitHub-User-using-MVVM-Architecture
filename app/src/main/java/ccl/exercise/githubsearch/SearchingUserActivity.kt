@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ccl.exercise.githubsearch.extension.afterTextChanged
 import ccl.exercise.githubsearch.ui.ItemSpacingDecoration
 import ccl.exercise.githubsearch.ui.UserSearchAdapter
@@ -16,6 +17,10 @@ class SearchingUserActivity : AppCompatActivity() {
 
     private val viewModel: UserViewModel by viewModel()
     private lateinit var userSearchAdapter: UserSearchAdapter
+
+    companion object {
+        private const val LOAD_MORE_THRESHOLD = 15
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +38,22 @@ class SearchingUserActivity : AppCompatActivity() {
         userSearchAdapter = UserSearchAdapter()
         recyclerView.apply {
             val linearLayoutManager = LinearLayoutManager(this@SearchingUserActivity)
+            val scrollListener = object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (viewModel.isLoading.value == true) {
+                        return
+                    }
+                    val itemNotViewed =
+                        linearLayoutManager.itemCount - linearLayoutManager.findLastVisibleItemPosition()
+                    if (itemNotViewed <= LOAD_MORE_THRESHOLD) {
+                        viewModel.loadMore()
+                    }
+                }
+            }
             adapter = userSearchAdapter
             layoutManager = linearLayoutManager
             addItemDecoration(ItemSpacingDecoration(R.dimen.large, R.dimen.medium))
-
+            addOnScrollListener(scrollListener)
         }
     }
 
@@ -52,6 +69,8 @@ class SearchingUserActivity : AppCompatActivity() {
                     userSearchAdapter.updateUsers(githubUsers)
                     toast(str = "notify user updates size: ${githubUsers.size}")//TODO remove this line
                 }
+            })
+            isLoading.observe(this@SearchingUserActivity, Observer {//TODO loadingView
             })
         }
     }

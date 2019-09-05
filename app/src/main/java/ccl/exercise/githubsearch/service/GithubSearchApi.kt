@@ -7,9 +7,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface GithubSearchApi {
-    @GET("/search/users")
-    fun getSearchUsers(@Query("q") term: String, @Query("per_page") pageSize: Int, @Query("page") pageNumber: Int?): Single<SearchResponse<User>>
+    companion object {
+        const val API_ENDPOINT = "https://api.github.com"
+        private const val PAGE_SIZE = 30
+    }
 
     @GET("/search/users")
-    fun getSearchUsers(@Query("q") term: String, @Query("per_page") pageSize: Int): Single<SearchResponse<User>>
+    fun searchUsers(@Query("q") term: String, @Query("page") pageNumber: Int = 1, @Query("per_page") pageSize: Int = PAGE_SIZE): Single<SearchResponse<User>>
 }

@@ -10,3 +10,9 @@ fun <T> Observable<T>.fromIo(): Observable<T> = subscribeOn(Schedulers.io())
 fun <T> Observable<T>.toMain(): Observable<T> = observeOn(AndroidSchedulers.mainThread())
 
 fun <T> Observable<T>.fromIoToMain(): Observable<T> = fromIo().toMain()
+
+fun <T> Single<T>.fromIo(): Single<T> = subscribeOn(Schedulers.io())
+
+fun <T> Single<T>.toMain(): Single<T> = observeOn(AndroidSchedulers.mainThread())
+
+fun <T> Single<T>.fromIoToMain(): Single<T> = fromIo().toMain()
