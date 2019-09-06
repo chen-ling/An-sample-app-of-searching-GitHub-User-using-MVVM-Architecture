@@ -3,7 +3,6 @@ package ccl.exercise.githubsearch.ui
 import android.view.ViewGroup
 import ccl.exercise.githubsearch.ui.base.BaseRecyclerViewAdapter
 import ccl.exercise.githubsearch.ui.base.BaseViewHolder
-import ccl.exercise.githubsearch.model.Item
 
 class UserSearchAdapter : BaseRecyclerViewAdapter<Item>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Item> {

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ccl.exercise.githubsearch.extension.fromIoToMain
 import ccl.exercise.githubsearch.extension.toMain
-import ccl.exercise.githubsearch.model.Item
 import ccl.exercise.githubsearch.model.SearchResponse
 import ccl.exercise.githubsearch.model.User
 import ccl.exercise.githubsearch.service.GithubSearchService
@@ -43,6 +42,7 @@ class UserViewModel : ViewModel(), KoinComponent {
 
     fun search(term: String) {
         if (!isSearchTermSame(term)) {
+            isLoading.value = true
             clearHistory()
             query = term
             searchSubject.onNext(term)
@@ -65,7 +65,6 @@ class UserViewModel : ViewModel(), KoinComponent {
             .debounce(DEBOUNCE_TIME, TimeUnit.MILLISECONDS)
             .toMain()
             .subscribe {
-                isLoading.value = true
                 searchService.getSearchUserList(it, pageNumber).toObservable()
                     .retry(RETRY_TIMES)
                     .let(this::loadUserFromObservable)

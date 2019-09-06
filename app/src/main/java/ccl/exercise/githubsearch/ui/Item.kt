@@ -1,4 +1,6 @@
-package ccl.exercise.githubsearch.model
+package ccl.exercise.githubsearch.ui
+
+import ccl.exercise.githubsearch.model.User
 
 sealed class Item(val type: Type) {
 

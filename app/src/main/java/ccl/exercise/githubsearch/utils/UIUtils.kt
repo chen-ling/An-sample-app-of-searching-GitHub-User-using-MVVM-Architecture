@@ -11,7 +11,7 @@ fun toast(str: String) = Toast.makeText(App.instance, str, Toast.LENGTH_SHORT).s
 
 fun toast(@StringRes strId: Int) = Toast.makeText(App.instance, strId, Toast.LENGTH_SHORT).show()
 
-fun getStr(@StringRes strId: Int) = App.instance.getString(strId)
+fun getStr(@StringRes strId: Int): String = App.instance.getString(strId)
 
 fun hideKeyboard(activity: Activity?) {
     activity?.let {
