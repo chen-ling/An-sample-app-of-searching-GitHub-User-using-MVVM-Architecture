@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface GithubSearchApi {
     companion object {
         const val API_ENDPOINT = "https://api.github.com"
-        private const val PAGE_SIZE = 30
+        private const val PAGE_SIZE = 50
     }
 
     @GET("/search/users")

@@ -24,8 +24,7 @@ val appModule = module {
                 .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
-                        .addHeader("Accept", "application/vnd.github.v3.text-match+json")
-                        .addHeader("Authorization", BuildConfig.TOKEN).build()
+                        .addHeader("Accept", "application/vnd.github.v3+json").build()
                     chain.proceed(request)
                 }
 

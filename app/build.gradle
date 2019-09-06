@@ -10,7 +10,6 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
     defaultConfig {
-        buildConfigField "String", "TOKEN", '"312c8c6f5a75a5ce444b5af19d56e4d1ecab33e0"'
         applicationId "ccl.exercise.githubsearch"
         minSdkVersion 19
         targetSdkVersion 28
