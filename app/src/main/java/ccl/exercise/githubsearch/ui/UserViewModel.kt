@@ -108,10 +108,8 @@ class UserViewModel : ViewModel(), KoinComponent {
     }
 
     private fun onMoreUsersLoaded(users: List<User>) {
-        val itemList = mutableListOf<Item.UserItem>()
-        users.forEach { itemList.add(Item.UserItem(it)) }
         // append items in order to restore correct data after configuration changed
-        githubUserList.addAll(itemList)
+        githubUserList.addAll(users.map(Item::UserItem))
         userList.value = githubUserList
         if (users.isEmpty()) {
             noMoreItem.value = true

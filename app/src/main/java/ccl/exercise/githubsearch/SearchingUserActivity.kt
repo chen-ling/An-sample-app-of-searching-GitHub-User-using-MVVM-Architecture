@@ -2,6 +2,8 @@ package ccl.exercise.githubsearch
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.MotionEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +13,7 @@ import ccl.exercise.githubsearch.ui.UserSearchAdapter
 import ccl.exercise.githubsearch.ui.UserViewModel
 import ccl.exercise.githubsearch.ui.base.ItemSpacingDecoration
 import ccl.exercise.githubsearch.utils.getStr
+import ccl.exercise.githubsearch.utils.hideKeyboard
 import ccl.exercise.githubsearch.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,7 +64,13 @@ class SearchingUserActivity : AppCompatActivity() {
             layoutManager = linearLayoutManager
             addItemDecoration(ItemSpacingDecoration(R.dimen.large, R.dimen.medium))
             addOnScrollListener(scrollListener)
+            setOnTouchListener(recyclerViewTouchListener)
         }
+    }
+
+    private val recyclerViewTouchListener = View.OnTouchListener { _, _ ->
+        hideKeyboard(this@SearchingUserActivity)
+        false
     }
 
     private fun registerLiveData() {
@@ -78,7 +87,6 @@ class SearchingUserActivity : AppCompatActivity() {
                     if (githubUsers.isEmpty() && isLoading.value == false) {
                         toast(R.string.no_result)
                     }
-//                    toast(str = "notify user updates size: ${githubUsers.size}")//TODO remove this line
                 }
             })
             isLoading.observe(this@SearchingUserActivity, Observer {
