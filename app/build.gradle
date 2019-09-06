@@ -57,6 +57,11 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
 
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.koin:koin-test:$koin_version"
+    testImplementation 'org.mockito:mockito-core:3.0.0'
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
+
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
