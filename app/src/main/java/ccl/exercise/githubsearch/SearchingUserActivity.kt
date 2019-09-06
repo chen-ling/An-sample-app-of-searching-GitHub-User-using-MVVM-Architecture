@@ -72,7 +72,11 @@ class SearchingUserActivity : AppCompatActivity() {
                 }
             })
             isLoading.observe(this@SearchingUserActivity, Observer {
-                //TODO loadingView
+                if (isLoading.value == true) {
+                    userSearchAdapter.appendLoadingView()
+                } else {
+                    userSearchAdapter.removeLoadingView()
+                }
             })
         }
     }

@@ -5,20 +5,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import ccl.exercise.githubsearch.BaseViewHolder
 import ccl.exercise.githubsearch.R
-import ccl.exercise.githubsearch.model.User
+import ccl.exercise.githubsearch.model.Item
 import com.bumptech.glide.Glide
 
-class UserViewHolder(parent: ViewGroup) : BaseViewHolder<User>(parent, R.layout.view_holder_user) {
+class UserViewHolder(parent: ViewGroup) : BaseViewHolder<Item.UserItem>(parent, R.layout.view_holder_user) {
 
     private val userName: TextView = itemView.findViewById(R.id.userName)
     private val avatar: ImageView = itemView.findViewById(R.id.avatar)
 
-    override fun onBind(item: User) {
-        userName.text = item.userName
+    override fun onBind(item: Item.UserItem) {
+        val user = item.user
+        userName.text = user.userName
         Glide.with(itemView.context).apply {
             clear(avatar)
-            if (item.avatarUrl?.isNotEmpty() == true) {
-                load(item.avatarUrl)
+            if (user.avatarUrl?.isNotEmpty() == true) {
+                load(user.avatarUrl)
                     .placeholder(R.drawable.github)
                     .circleCrop()
                     .into(avatar)

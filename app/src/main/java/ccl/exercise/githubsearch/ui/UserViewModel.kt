@@ -3,6 +3,7 @@ package ccl.exercise.githubsearch.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ccl.exercise.githubsearch.extension.fromIoToMain
+import ccl.exercise.githubsearch.model.Item
 import ccl.exercise.githubsearch.model.User
 import ccl.exercise.githubsearch.service.GithubSearchService
 import io.reactivex.disposables.CompositeDisposable
@@ -23,7 +24,7 @@ class UserViewModel : ViewModel(), KoinComponent {
     private var pageNumber: Int = 1
     private var query: String? = null
 
-    val userList = MutableLiveData<List<User>>()
+    val userList = MutableLiveData<List<Item.UserItem>>()
     val loadingError = MutableLiveData<Throwable>()
     val isLoading = MutableLiveData<Boolean>()
 
@@ -34,11 +35,12 @@ class UserViewModel : ViewModel(), KoinComponent {
                 searchService.getSearchUserList(it, pageNumber).toObservable()
             }
             .fromIoToMain()
-            .doAfterTerminate { isLoading.value = false }
             .subscribe({
-                userList.value = it.item
+                isLoading.value = false
+                userList.value = buildItems(it.item)
                 pageNumber++
             }, {
+                isLoading.value = false
                 loadingError.value = it
             })
             .let(disposables::add)
@@ -66,11 +68,12 @@ class UserViewModel : ViewModel(), KoinComponent {
         isLoading.value = true
         searchService.getSearchUserList(queryTerm, pageNumber)
             .fromIoToMain()
-            .doAfterTerminate { isLoading.value = false }
             .subscribe({
-                userList.value = it.item
+                isLoading.value = false
+                userList.value = buildItems(it.item)
                 pageNumber++
             }, {
+                isLoading.value = false
                 loadingError.value = it
             })
             .let(disposables::add)
@@ -78,5 +81,11 @@ class UserViewModel : ViewModel(), KoinComponent {
 
     override fun onCleared() {
         disposables.clear()
+    }
+
+    private fun buildItems(userList: List<User>): List<Item.UserItem> {
+        val itemList = mutableListOf<Item.UserItem>()
+        userList.forEach { itemList.add(Item.UserItem(it)) }
+        return itemList
     }
 }

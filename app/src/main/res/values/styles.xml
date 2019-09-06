@@ -13,4 +13,8 @@
         <item name="android:textSize">@dimen/font_large</item>
     </style>
 
+    <style name="AppTheme.Text.XLarge" parent="AppTheme.Text">
+        <item name="android:textSize">@dimen/font_xlarge</item>
+    </style>
+
 </resources>
