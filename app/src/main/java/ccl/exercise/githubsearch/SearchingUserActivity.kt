@@ -47,7 +47,7 @@ class SearchingUserActivity : AppCompatActivity() {
             val linearLayoutManager = LinearLayoutManager(this@SearchingUserActivity)
             val scrollListener = object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    if (viewModel.isLoading.value == true) {
+                    if (viewModel.isLoading.value == true || viewModel.noMoreItem.value == true) {
                         return
                     }
                     val itemNotViewed =
@@ -75,7 +75,10 @@ class SearchingUserActivity : AppCompatActivity() {
             userList.observe(this@SearchingUserActivity, Observer { githubUsers ->
                 run {
                     userSearchAdapter.updateUsers(githubUsers)
-                    toast(str = "notify user updates size: ${githubUsers.size}")//TODO remove this line
+                    if (githubUsers.isEmpty() && isLoading.value == false) {
+                        toast(R.string.no_result)
+                    }
+//                    toast(str = "notify user updates size: ${githubUsers.size}")//TODO remove this line
                 }
             })
             isLoading.observe(this@SearchingUserActivity, Observer {

@@ -32,6 +32,7 @@ class UserViewModel : ViewModel(), KoinComponent {
     val userList = MutableLiveData<List<Item.UserItem>>()
     val loadingError = MutableLiveData<Throwable>()
     val isLoading = MutableLiveData<Boolean>()
+    val noMoreItem = MutableLiveData<Boolean>()
 
     init {
         subscribeToSearchSubject()
@@ -39,6 +40,7 @@ class UserViewModel : ViewModel(), KoinComponent {
 
     fun search(term: String) {
         if (!isSearchTermSame(term)) {
+            isLoading.value = true
             clearHistory()
             query = term
             searchSubject.onNext(term)
@@ -48,6 +50,7 @@ class UserViewModel : ViewModel(), KoinComponent {
     private fun clearHistory() {
         userList.value = listOf()
         githubUserList.clear()
+        noMoreItem.value = false
         pageNumber = 1
     }
 
@@ -80,8 +83,8 @@ class UserViewModel : ViewModel(), KoinComponent {
             .doAfterTerminate { }
             .subscribe({
                 isLoading.value = false
-                onMoreUsersLoaded(it.item)
                 pageNumber++
+                onMoreUsersLoaded(it.item)
             }, {
                 isLoading.value = false
                 if (it is HttpException) {
@@ -100,6 +103,9 @@ class UserViewModel : ViewModel(), KoinComponent {
         // append items in order to restore correct data after configuration changed
         githubUserList.addAll(itemList)
         userList.value = githubUserList
+        if (users.isEmpty()) {
+            noMoreItem.value = true
+        }
     }
 
     override fun onCleared() {
