@@ -9,6 +9,7 @@ import ccl.exercise.githubsearch.extension.afterTextChanged
 import ccl.exercise.githubsearch.ui.ItemSpacingDecoration
 import ccl.exercise.githubsearch.ui.UserSearchAdapter
 import ccl.exercise.githubsearch.ui.UserViewModel
+import ccl.exercise.githubsearch.utils.getStr
 import ccl.exercise.githubsearch.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,7 +62,7 @@ class SearchingUserActivity : AppCompatActivity() {
         viewModel.apply {
             loadingError.observe(this@SearchingUserActivity, Observer { error ->
                 error ?: return@Observer
-                toast(R.string.something_went_wrong)
+                toast("${error.message} ${getStr(R.string.something_went_wrong)}")
                 loadingError.value = null
             })
             userList.observe(this@SearchingUserActivity, Observer { githubUsers ->
@@ -70,7 +71,8 @@ class SearchingUserActivity : AppCompatActivity() {
                     toast(str = "notify user updates size: ${githubUsers.size}")//TODO remove this line
                 }
             })
-            isLoading.observe(this@SearchingUserActivity, Observer {//TODO loadingView
+            isLoading.observe(this@SearchingUserActivity, Observer {
+                //TODO loadingView
             })
         }
     }
