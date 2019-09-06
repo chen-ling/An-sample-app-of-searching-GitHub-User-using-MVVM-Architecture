@@ -18,6 +18,7 @@
             android:drawablePadding="@dimen/margin_padding_large"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:hint="@string/search_query_hint"/>
 
     <androidx.recyclerview.widget.RecyclerView

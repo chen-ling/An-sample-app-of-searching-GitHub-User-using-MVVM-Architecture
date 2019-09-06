@@ -1,7 +1,7 @@
 package ccl.exercise.githubsearch.ui
 
 import android.view.ViewGroup
-import ccl.exercise.githubsearch.BaseViewHolder
+import ccl.exercise.githubsearch.ui.base.BaseViewHolder
 import ccl.exercise.githubsearch.R
 import ccl.exercise.githubsearch.model.Item
 

@@ -1,4 +1,4 @@
-package ccl.exercise.githubsearch.ui
+package ccl.exercise.githubsearch.ui.base
 
 import android.graphics.Rect
 import android.view.View

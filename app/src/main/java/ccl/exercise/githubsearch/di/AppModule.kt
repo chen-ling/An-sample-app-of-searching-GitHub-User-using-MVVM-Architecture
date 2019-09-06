@@ -5,7 +5,6 @@ import ccl.exercise.githubsearch.service.GithubSearchApi
 import ccl.exercise.githubsearch.service.GithubSearchService
 import ccl.exercise.githubsearch.service.GithubSearchServiceImpl
 import ccl.exercise.githubsearch.ui.UserViewModel
-import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -16,8 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val appModule = module {
-    single { Gson() }
-
     single {
         val timeoutSeconds = 15L
 

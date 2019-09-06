@@ -3,7 +3,7 @@ package ccl.exercise.githubsearch.ui
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import ccl.exercise.githubsearch.BaseViewHolder
+import ccl.exercise.githubsearch.ui.base.BaseViewHolder
 import ccl.exercise.githubsearch.R
 import ccl.exercise.githubsearch.model.Item
 import com.bumptech.glide.Glide

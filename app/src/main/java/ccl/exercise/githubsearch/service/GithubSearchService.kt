@@ -12,12 +12,10 @@ interface GithubSearchService {
 
 class GithubSearchServiceImpl : GithubSearchService, KoinComponent {
 
-    companion object {
-        private const val RETRY_TIMES = 3L
-    }
-
     private val api: GithubSearchApi by inject()
 
+    // preparing local cache here if we need
+
     override fun getSearchUserList(term: String, pageNumber: Int): Single<SearchResponse<User>> =
-        api.searchUsers(term, pageNumber).retry(RETRY_TIMES)
+        api.searchUsers(term, pageNumber)
 }

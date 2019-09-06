@@ -1,8 +1,8 @@
 package ccl.exercise.githubsearch.ui
 
 import android.view.ViewGroup
-import ccl.exercise.githubsearch.BaseRecyclerViewAdapter
-import ccl.exercise.githubsearch.BaseViewHolder
+import ccl.exercise.githubsearch.ui.base.BaseRecyclerViewAdapter
+import ccl.exercise.githubsearch.ui.base.BaseViewHolder
 import ccl.exercise.githubsearch.model.Item
 
 class UserSearchAdapter : BaseRecyclerViewAdapter<Item>() {
@@ -24,7 +24,11 @@ class UserSearchAdapter : BaseRecyclerViewAdapter<Item>() {
             if (it.isEmpty()) {
                 clearAll()
             } else {
-                setItems(users)
+                if (items.isEmpty()) {
+                    setItems(it)
+                } else {
+                    appendItems(it.subList(items.size, it.size))
+                }
             }
         }
     }

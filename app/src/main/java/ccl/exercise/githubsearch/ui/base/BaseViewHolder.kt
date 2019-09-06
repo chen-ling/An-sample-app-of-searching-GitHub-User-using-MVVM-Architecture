@@ -1,4 +1,4 @@
-package ccl.exercise.githubsearch
+package ccl.exercise.githubsearch.ui.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

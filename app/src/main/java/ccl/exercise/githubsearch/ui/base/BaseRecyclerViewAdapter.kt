@@ -1,4 +1,4 @@
-package ccl.exercise.githubsearch
+package ccl.exercise.githubsearch.ui.base
 
 import androidx.recyclerview.widget.RecyclerView
 
@@ -12,16 +12,12 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
     override fun getItemCount(): Int = items.size
 
     fun setItems(items: List<T>) {
-        if (items.isNotEmpty()) {
-            appendItems(items)
-        } else {
-            this.items.clear()
-            this.items.addAll(items)
-            notifyDataSetChanged()
-        }
+        this.items.clear()
+        this.items.addAll(items)
+        notifyDataSetChanged()
     }
 
-    private fun appendItems(items: List<T>) {
+    fun appendItems(items: List<T>) {
         val startPosition = this.items.size
         this.items.addAll(items)
         notifyItemInserted(startPosition)
