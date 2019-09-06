@@ -34,8 +34,6 @@ class UserSearchAdapter : BaseRecyclerViewAdapter<Item>() {
     }
 
     fun appendLoadingView() {
-        if (items.isEmpty()) return
-
         items.add(Item.LoadingItem())
         notifyItemInserted(itemCount - 1)
     }
