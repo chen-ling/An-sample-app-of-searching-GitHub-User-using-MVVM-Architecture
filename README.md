@@ -1,11 +1,12 @@
 # An sample app of searching GitHub User using MVVM Architecture #
 
 This application helps you to search github users easily,
-<img src="https://i.imgur.com/34kmU89.png" width=300/>
+
+<img src="https://i.imgur.com/34kmU89.png" width=150 height=300/>
 
 ### Folder Structure ###
 
-* di - configuration of di
+* di - configuration of dependency injection
 * extension - extensions used in this app
 * model - data model
 * service - network service and url request
