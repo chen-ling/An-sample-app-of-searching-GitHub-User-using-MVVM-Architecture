@@ -3,12 +3,14 @@ package ccl.exercise.githubsearch.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ccl.exercise.githubsearch.extension.fromIoToMain
+import ccl.exercise.githubsearch.extension.toMain
 import ccl.exercise.githubsearch.model.Item
 import ccl.exercise.githubsearch.model.SearchResponse
 import ccl.exercise.githubsearch.model.User
 import ccl.exercise.githubsearch.service.GithubSearchService
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -25,6 +27,7 @@ class UserViewModel : ViewModel(), KoinComponent {
 
     private val searchSubject = PublishSubject.create<String>()
     private val disposables = CompositeDisposable()
+    private var loadDisposable: Disposable? = null
     private val githubUserList = mutableListOf<Item.UserItem>()
     private var pageNumber: Int = 1
     private var query: String? = null
@@ -40,7 +43,6 @@ class UserViewModel : ViewModel(), KoinComponent {
 
     fun search(term: String) {
         if (!isSearchTermSame(term)) {
-            isLoading.value = true
             clearHistory()
             query = term
             searchSubject.onNext(term)
@@ -61,14 +63,18 @@ class UserViewModel : ViewModel(), KoinComponent {
     private fun subscribeToSearchSubject() {
         searchSubject
             .debounce(DEBOUNCE_TIME, TimeUnit.MILLISECONDS)
-            .flatMap {
+            .toMain()
+            .subscribe {
+                isLoading.value = true
                 searchService.getSearchUserList(it, pageNumber).toObservable()
-            }
-            .retry(RETRY_TIMES)
-            .let(this::loadUserFromObservable)
+                    .retry(RETRY_TIMES)
+                    .let(this::loadUserFromObservable)
+            }.let(disposables::add)
+
     }
 
     fun loadMore() {
+        if (noMoreItem.value == true || isLoading.value == true) return
         val queryTerm = query ?: return
         isLoading.value = true
         searchService.getSearchUserList(queryTerm, pageNumber)
@@ -78,6 +84,7 @@ class UserViewModel : ViewModel(), KoinComponent {
     }
 
     private fun loadUserFromObservable(observable: Observable<SearchResponse<User>>) {
+        loadDisposable?.dispose()
         observable
             .fromIoToMain()
             .doAfterTerminate { }
@@ -94,7 +101,10 @@ class UserViewModel : ViewModel(), KoinComponent {
                     loadingError.value = it
                 }
             })
-            .let(disposables::add)
+            .let {
+                disposables.add(it)
+                loadDisposable = it
+            }
     }
 
     private fun onMoreUsersLoaded(users: List<User>) {
